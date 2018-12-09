@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".MovieRater">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+            android:id="@+id/movTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Enter the title of movie"/>
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description" />
+
+    <EditText
+            android:id="@+id/movDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Enter a short description of the movie"/>
+
+    <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Language" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/radioGroup"
+                android:orientation="horizontal"
+        >
+            <RadioButton
+                    android:text="English"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/English" android:layout_weight="1"
+                    android:checked="true"/>
+            <RadioButton
+                    android:text="Chinese"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/Chinese" android:layout_weight="1"/>
+            <RadioButton
+                    android:text="Malay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/Malay" android:layout_weight="1"/>
+            <RadioButton
+                    android:text="Tamil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/Tamil" android:layout_weight="1"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Release date" />
+
+    <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            android:hint="Enter release date"/>
+
+    <CheckBox
+            android:id="@+id/notSuit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Not suitable for all audience"
+            android:clickable="true"
+            android:onClick="onCheckboxClicked"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:id="@+id/suit" android:visibility="invisible">
+
+        <CheckBox
+                android:id="@+id/viol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Violence"/>
+
+        <CheckBox
+                android:id="@+id/langc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Language used"/>
+    </LinearLayout>
+
+</LinearLayout>
