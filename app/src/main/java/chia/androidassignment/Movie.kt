@@ -1,5 +1,9 @@
 package chia.androidassignment
+import android.app.Application
 import android.os.Parcelable
+import android.view.ContextMenu
+import android.widget.EditText
+
 import java.io.Serializable
 
 
@@ -28,5 +32,40 @@ class Movie (title:String,desc:String,lang:String,rDate:String,nSuit:Boolean,vio
         this.ratingNo = ratingNo
 
 
+    }
+}
+
+class MovieList :Application(){
+    var theList:ArrayList<Movie>
+
+    init{
+        this.theList = arrayListOf()
+
+    }
+    fun addList(newList:Movie){
+        var add = this.theList.add(newList)
+    }
+
+
+    fun getList():ArrayList<Movie>{
+        return this.theList
+    }
+    private var singleton: MovieList? = null
+
+    fun getInstance(): MovieList? {
+        return singleton
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        singleton = this
+    }
+
+}
+
+class test(menu: EditText?){
+    var menuC:EditText? = menu
+    fun getMenu():EditText?{
+        return menuC
     }
 }

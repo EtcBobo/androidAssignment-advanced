@@ -55,8 +55,10 @@ class MovieRater : AppCompatActivity() {
             var suit = notSuit.isChecked
             var viol = viol.isChecked
             var langU = langc.isChecked
-
             val newMovie = Movie(title,desc,lang,date,suit,viol,langU)
+            val movieL = applicationContext as MovieList
+            movieL.addList(newMovie)
+
             val intent = Intent(this, MovieDetail::class.java)
             intent.putExtra("newMovie", newMovie)
             startActivity(intent)
