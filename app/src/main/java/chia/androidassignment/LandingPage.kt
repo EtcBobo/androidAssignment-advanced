@@ -60,10 +60,10 @@ class LandingPage : AppCompatActivity() {
 
                 finalParent.addView(relativeP)
                 registerForContextMenu(tv2)
-
+                movieL.addView(tv2)
             }
         }
-        registerForContextMenu(rootLayout)
+
     }
 
 
@@ -89,20 +89,41 @@ class LandingPage : AppCompatActivity() {
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        val theTest = applicationContext as Adapter
-        if(v?.id == R.id.rootLayout){
-            menu?.add(1,1001,1,"Edit")
+        val movieL = applicationContext as MovieList
+        var newView = movieL.getView()
+        var count:Int = 0
+        for (i in newView){
+            count = count + 1
         }
+        for (i in 0..count -1){
+            if(v?.id == newView[i].id){
+                menu?.add(1,1001+newView[i].id,1,"Edit")
+
+            }
+        }
+
+
+
 
 
 
     }
 
     override fun onContextItemSelected(item: MenuItem?): Boolean {
-        if(item?.itemId == 1001){
-            val intent = Intent(this, MovieEdit::class.java)
-            startActivity(intent)
+        val movieL = applicationContext as MovieList
+        var newView = movieL.getView()
+        var count:Int = 0
+        for(i in newView){
+            count = count +1
         }
+        for (i in 0 .. count -1){
+            if(item?.itemId == 1101+i){
+//            val intent = Intent(this, MovieEdit::class.java)
+//            startActivity(intent)
+                Toast.makeText(this,"meh"+i.toString(),Toast.LENGTH_LONG).show()
+            }
+        }
+
         return super.onContextItemSelected(item)
     }
 

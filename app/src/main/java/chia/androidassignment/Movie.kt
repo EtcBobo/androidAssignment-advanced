@@ -3,6 +3,8 @@ import android.app.Application
 import android.os.Parcelable
 import android.view.ContextMenu
 import android.widget.EditText
+import android.widget.TextView
+import org.w3c.dom.Text
 
 import java.io.Serializable
 
@@ -37,15 +39,23 @@ class Movie (title:String,desc:String,lang:String,rDate:String,nSuit:Boolean,vio
 
 class MovieList :Application(){
     var theList:ArrayList<Movie>
+    var viewList:ArrayList<TextView>
 
     init{
         this.theList = arrayListOf()
-
+        this.viewList = arrayListOf()
     }
     fun addList(newList:Movie){
         var add = this.theList.add(newList)
     }
 
+    fun addView(newView:TextView){
+        var add = this.viewList.add(newView)
+    }
+
+    fun getView():ArrayList<TextView>{
+        return this.viewList
+    }
 
     fun getList():ArrayList<Movie>{
         return this.theList
