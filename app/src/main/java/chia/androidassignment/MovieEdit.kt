@@ -13,14 +13,30 @@ class MovieEdit : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_edit)
-        val theMovie = Movie("Venom","OverView","English","19-10-2018",true,true,false)
+
+        val theMovie = intent.getSerializableExtra("newMovie") as Movie
         movTitle?.setText(theMovie.title)
 
         movDesc?.setText(theMovie.desc)
         tdate?.setText(theMovie.rDate)
+        var lang = theMovie.lang
+        if (lang == "English"){
+            val radio: RadioButton = findViewById(R.id.English)
+            radio.isChecked = true
+        }
+        else if(lang =="Chinese"){
+            val radio: RadioButton = findViewById(R.id.Chinese)
+            radio.isChecked = true
+        }
+        else if(lang == "Malay"){
+            val radio: RadioButton = findViewById(R.id.Malay)
+            radio.isChecked = true
+        }
+        else{
+            val radio: RadioButton = findViewById(R.id.Tamil)
+            radio.isChecked = true
+        }
 
-        val radio: RadioButton = findViewById(R.id.English)
-        radio.isChecked = true
 
         if(theMovie.viol || theMovie.langU){
             var theSuit = findViewById<LinearLayout>(R.id.suit)
@@ -37,7 +53,7 @@ class MovieEdit : AppCompatActivity() {
 
     }
     override fun onSupportNavigateUp(): Boolean {
-        val theMovie = Movie("Venom","OverView","English","19-10-2018",true,true,false)
+        val theMovie = intent.getSerializableExtra("newMovie") as Movie
         val intent = Intent(this, MovieDetail::class.java)
         intent.putExtra("newMovie",theMovie)
         startActivity(intent)
@@ -50,7 +66,7 @@ class MovieEdit : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if(item?.itemId == R.id.cancel){
-            val theMovie = Movie("Venom","OverView","English","19-10-2018",true,true,false)
+            val theMovie = intent.getSerializableExtra("newMovie") as Movie
             val intent = Intent(this, MovieDetail::class.java)
             intent.putExtra("newMovie",theMovie)
             startActivity(intent)
@@ -60,9 +76,13 @@ class MovieEdit : AppCompatActivity() {
             val radio:RadioButton = findViewById(id)
             var radioT = radio.text.toString()
             val theMovie = Movie(movTitle.text.toString(),movDesc.text.toString(),radioT,tdate.text.toString(),notSuit.isChecked,viol.isChecked,langc.isChecked)
-            val intent = Intent(this, MovieDetail::class.java)
-            intent.putExtra("newMovie",theMovie)
-            startActivity(intent)
+            val movieList = applicationContext as MovieList
+
+            val intentn = Intent(this, MovieDetail::class.java)
+            var position =  intent.getIntExtra("position",0)
+            movieList.editList(theMovie,position)
+            intentn.putExtra("newMovie",theMovie)
+            startActivity(intentn)
         }
         return super.onOptionsItemSelected(item)
     }

@@ -39,22 +39,19 @@ class Movie (title:String,desc:String,lang:String,rDate:String,nSuit:Boolean,vio
 
 class MovieList :Application(){
     var theList:ArrayList<Movie>
-    var viewList:ArrayList<TextView>
+
 
     init{
         this.theList = arrayListOf()
-        this.viewList = arrayListOf()
+
     }
     fun addList(newList:Movie){
         var add = this.theList.add(newList)
     }
 
-    fun addView(newView:TextView){
-        var add = this.viewList.add(newView)
-    }
 
-    fun getView():ArrayList<TextView>{
-        return this.viewList
+    fun editList(newMovie:Movie,position:Int){
+        theList.set(position,newMovie)
     }
 
     fun getList():ArrayList<Movie>{

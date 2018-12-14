@@ -20,56 +20,61 @@ class LandingPage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_landing_page)
-        var count:Int = 0
-        val movieL = applicationContext as MovieList
+        registerForContextMenu(listView)
+        val movie = applicationContext as MovieList
 
-        val theList = movieL.getList()
-        if(theList.isEmpty()){
+
+        if(movie.getList().isNotEmpty()) {
+            val adapter = Adapter(applicationContext, movie.getList())
+            listView.adapter = adapter
+            listView.setOnItemClickListener { parent, view, position, id ->
+                val intent = Intent(applicationContext,MovieDetail::class.java)
+                var theList = movie.getList()
+                intent.putExtra("newMovie",theList[position])
+                startActivity(intent)
+            }
 
         }
-        else{
-            for (i in theList){
-                count = count + 1
-            }
-
-            for( i in 0 .. count-1) {
-                val relativeP = RelativeLayout(this)
-                relativeP.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 180)
-
-                val iv = ImageView(this)
-                iv.setImageResource(R.drawable.movie)
-                val layoutParams = LinearLayout.LayoutParams(150, 150)
-                iv.layoutParams = layoutParams
-
-                val tv2 = TextView(this)
-                val lptv1 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
-                tv2.setLayoutParams(lptv1)
-                tv2.setText(theList[i].title)
-                tv2.gravity = Gravity.CENTER
-                tv2.setTextSize(16f)
-
-                val tid = 100 + i
-                tv2.setId(tid)
-
-                relativeP.removeAllViews()
-                relativeP.addView(iv)
-                relativeP.addView(tv2)
 
 
-                val finalParent = this.findViewById(R.id.rootLayout) as ViewGroup
 
-                finalParent.addView(relativeP)
-                registerForContextMenu(tv2)
-                movieL.addView(tv2)
-            }
+
+    }
+    class Adapter(private val context: Context,
+                  private val dataSource: ArrayList<Movie>) : BaseAdapter() {
+
+        private val inflater: LayoutInflater
+                = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        override fun getCount(): Int {
+            return dataSource.size
+        }
+
+
+        override fun getItem(position: Int): Any {
+            return dataSource[position]
+        }
+
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+
+            val rowView = inflater.inflate(R.layout.listview, parent, false)
+            val movie = getItem(position) as Movie
+            var title = rowView.findViewById(R.id.theTitle) as TextView
+            title.text = movie.title
+//
+            val thumbnailImageView = rowView.findViewById(R.id.imageMovie) as ImageView
+            thumbnailImageView.setImageResource(R.drawable.movie)
+
+            return rowView
         }
 
     }
-
-
-
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.land,menu)
@@ -77,56 +82,36 @@ class LandingPage : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item?.itemId == R.id.addNew){
-
-            val intent = Intent(this, MovieRater::class.java)
-            startActivity(intent)
-
-
-        }
+        val intent = Intent(applicationContext,MovieRater::class.java )
+        startActivity(intent)
         return super.onOptionsItemSelected(item)
+
     }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        val movieL = applicationContext as MovieList
-        var newView = movieL.getView()
-        var count:Int = 0
-        for (i in newView){
-            count = count + 1
+        if(v?.id == R.id.listView){
+            menu?.add(1,1001,1,"Edit")
         }
-        for (i in 0..count -1){
-            if(v?.id == newView[i].id){
-                menu?.add(1,1001+newView[i].id,1,"Edit")
-
-            }
-        }
-
-
-
-
-
-
     }
 
+
     override fun onContextItemSelected(item: MenuItem?): Boolean {
-        val movieL = applicationContext as MovieList
-        var newView = movieL.getView()
-        var count:Int = 0
-        for(i in newView){
-            count = count +1
-        }
-        for (i in 0 .. count -1){
-            if(item?.itemId == 1101+i){
-//            val intent = Intent(this, MovieEdit::class.java)
-//            startActivity(intent)
-                Toast.makeText(this,"meh"+i.toString(),Toast.LENGTH_LONG).show()
-            }
+        val movie = applicationContext as MovieList
+        val intent = Intent(this@LandingPage,MovieEdit::class.java )
+
+        val info = item?.menuInfo as AdapterView.AdapterContextMenuInfo
+        if (item.itemId==1001){
+            var position = info.id.toInt()
+            var movList = movie.getList()
+            intent.putExtra("newMovie",movList[position])
+            intent.putExtra("position",position)
+            startActivity(intent)
         }
 
         return super.onContextItemSelected(item)
-    }
 
+    }
 
 
 
